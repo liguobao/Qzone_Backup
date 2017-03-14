@@ -1,7 +1,7 @@
 {
     "manifest_version":2,
 	"name":"QQ空间备份插件",
-	"version":"1.0",
+	"version":"0.0.0",
 	"description":"QQ空间备份插件",
 	"icons":
 	{
@@ -20,7 +20,7 @@
 	   "default_popup":"popup.html"
 	},
 	"content_scripts":[{
-		"matches":["http://user.qzone.qq.com/*"],
+		"matches":["http://user.qzone.qq.com/*","https://user.qzone.qq.com/*"],
 		"js":["jquery-2.0.0.min.js","myscript.js"],
 		"run_at":"document_end"
 	}]
