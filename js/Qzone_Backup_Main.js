@@ -2,6 +2,17 @@ var msgList ;
 var shuoshuoInfoList = [];
 var pagerCount = 0;
 
+function setPagerIndex(tab,index){
+     chrome.tabs.getSelected(null, function(tab) {
+          chrome.tabs.sendRequest(tab.id, {method: "setPagerGoCount",data:index}, function(response) {
+               if(response.method=="setPagerGoCount"){
+                    $("#btnGetShuoShuo").html("<i class='am-icon-spinner am-icon-spin'></i>正在跳转至第"+index +"页");
+                     console.log(response.data);
+                    }
+                 });});
+}
+
+
 $("#btnGetShuoShuo").on("click",function(){
   chrome.tabs.getSelected(null, function(tab) {
 
