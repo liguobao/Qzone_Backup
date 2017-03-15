@@ -7,9 +7,26 @@ function setPagerIndex(tab,index){
          if(index<pagerCount){
                chrome.tabs.sendRequest(tab.id, {method: "setPagerGoCount",data:index}, function(response) {
                if(response.method=="setPagerGoCount"){
+                    if(response.data){
+                         msgList = $(response.data);
+                        msgList.each(function(index){
+                        var li = msgList[index];
+                        var content =$($(li).find(".bd")[0]).find("pre")[0].innerHTML;
+                        var customtail =$($($(li).find("span.custom-tail"))[0]).attr("title");
+                        var date =$($($(li).find("a.goDetail"))[0]).attr("title");
+                        var shuoshuoInfo = {
+                            "content":content,
+                            "date":date,
+                            "customtail":customtail!=undefined && customtail!=""?customtail:"Web",
+                            };
+                        console.log(shuoshuoInfo);
+                        shuoshuoInfoList.push(shuoshuoInfo);});
+                    }
+                   
                    index = index+1;
                    console.log("第『"+(index-1)+"』页跳转结果："+response.data);
                    $("#btnGetShuoShuo").html("<i class='am-icon-spinner am-icon-spin'></i>正在跳转至第"+index +"页");
+                   
                    setPagerIndex(tab,index);
                 }
              });
