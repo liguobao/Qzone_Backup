@@ -4,33 +4,27 @@ var pagerCount = 0;
 
 function setPagerIndex(tab,index){
      chrome.tabs.getSelected(null, function(tab) {
-          chrome.tabs.sendRequest(tab.id, {method: "setPagerGoCount",data:index}, function(response) {
+         if(index<pagerCount){
+               chrome.tabs.sendRequest(tab.id, {method: "setPagerGoCount",data:index}, function(response) {
                if(response.method=="setPagerGoCount"){
-                    $("#btnGetShuoShuo").html("<i class='am-icon-spinner am-icon-spin'></i>正在跳转至第"+index +"页");
-                     console.log(response.data);
-                    }
-                 });});
+                   index = index+1;
+                   console.log("第『"+(index-1)+"』页跳转结果："+response.data);
+                   $("#btnGetShuoShuo").html("<i class='am-icon-spinner am-icon-spin'></i>正在跳转至第"+index +"页");
+                   setPagerIndex(tab,index);
+                }
+             });
+         }
+        });
 }
 
 
 $("#btnGetShuoShuo").on("click",function(){
   chrome.tabs.getSelected(null, function(tab) {
-
-    
     chrome.tabs.sendRequest(tab.id, {method: "pager_last_0"}, function(response) {
           if(response.method=="pager_last_0"){
               pagerCount =  response.data;    
               console.log("当前页数："+pagerCount);
-              for(var index =1;index<5;index++){
-                  chrome.tabs.getSelected(null, function(tab) {
-                        chrome.tabs.sendRequest(tab.id, {method: "setPagerGoCount",data:index}, function(response) {
-                             if(response.method=="setPagerGoCount"){
-                                  $("#btnGetShuoShuo").html("<i class='am-icon-spinner am-icon-spin'></i>正在跳转至第"+index +"页");
-                                 console.log(response.data);
-                                }
-                            });});
-                 
-              }
+              setPagerIndex(tab,1);
           }
      });
 

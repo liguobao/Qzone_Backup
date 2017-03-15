@@ -28,10 +28,13 @@ chrome.extension.onRequest.addListener(
             if(pager_go_0&&pager_gobtn_0){
                 $(pager_go_0[0]).val(request.data);
                 $(pager_gobtn_0[0]).click();
-                while( window.scrollTo(0,document.body.scrollHeight));
-                sendResponse({data: "success", method: "setPagerGoCount"}); //same as innerText
+                while(window.scrollTo(0,document.body.scrollHeight));
+                setTimeout(sendResponse({data: "success", method: "setPagerGoCount"}),5000);
+                //sendResponse({data: "success", method: "setPagerGoCount"}); 
+                
+              
             }else{
-                sendResponse({data: "fail", method: "setPagerGoCount"}); //same as innerText
+                sendResponse({data: "fail", method: "setPagerGoCount"}); 
             }
            
         }
